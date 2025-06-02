@@ -15,11 +15,12 @@ jobs:
       - name: Make a dummy change
         run: date >> log.txt
 
-      - name: Commit changes
+      - name: Commit and push changes
+        env:
+          PAT: ${{ secrets.PAT }}
         run: |
-          git config --global user.name 'bhargavIT1'
-          git config --global user.email 'your-bhargavbora79@gmail.com'
-          git remote set-url origin https://x-access-token:${{ secrets.PAT }}@github.com/bhargavIT1/Daily_Tracker.git
-          git add .
-          git commit -m "Daily commit to keep streak alive"
-          git push
+          git config --global user.name "bhargavIT1"
+          git config --global user.email "bhargavbora79@gmail.com"
+          git add log.txt
+          git commit -m "Daily commit to keep streak alive" || echo "Nothing to commit"
+          git push https://x-access-token:${PAT}@github.com/bhargavIT1/daily_tracker.git HEAD:main
